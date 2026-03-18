@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Wave/WaveData")]
+[CreateAssetMenu(menuName = "Wave/WaveData")]
 public class WaveData : ScriptableObject{
     public GameObject enemyPrefab;
     public int count;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Wave/WaveGroup")]
+[CreateAssetMenu(menuName = "Wave/WaveGroup")]
 public class WaveGroup : ScriptableObject{
     public WaveData[] _waveDatas;
 }
