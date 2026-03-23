@@ -1,23 +1,15 @@
 using System.Collections;
 using UnityEngine;
-
-public class WaveManager : MonoBehaviour{
-    public static WaveManager Instance{ get; private set; }
-    
+public class WaveManager : DestroySingleton<WaveManager> 
+{
     public EnemyFactory enemyFactory;
     public Transform spawnPoint;
     public WaveData[] allRounds;
     private int currentRoundIndex = 0;
     public int enemiesAlive = 0;
-
-    private void Awake(){
-        if (Instance != null && Instance != this){
-            Debug.LogWarning("Znaleziono duplikat WaveManager! Niszczę go.");
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
+    protected override void Awake()
+    {
+        base.Awake(); 
     }
 
     public void StartNextRound(){
@@ -27,10 +19,9 @@ public class WaveManager : MonoBehaviour{
             currentRoundIndex++;
         }
         else{
-            Debug.Log("Wygrałeś poziom!");
+            Debug.Log("You won!");
         }
     }
-
     private IEnumerator SpawnWaveSequence(WaveData wave){
         foreach (WaveGroup group in wave.waveGroup){
             for (int i = 0; i < group.count; i++){
@@ -49,8 +40,8 @@ public class WaveManager : MonoBehaviour{
     public void OnEnemyRemoved(){
         enemiesAlive--;
 
-        if (enemiesAlive <= 0){
-            Debug.Log("Fala pokonana! Możesz odpalić kolejną.");
+        if (enemiesAlive <= 0) {
+            Debug.Log("Wave Defeated");
         }
     }
 }

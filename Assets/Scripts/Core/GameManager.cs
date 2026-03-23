@@ -56,6 +56,7 @@ public class GameManager : PersistentSingleton<GameManager> {
     }
     public void HandleDefensePhase() {
         Debug.Log("Defense Phase");
+        WaveManager.Instance.StartNextRound();
     }
     public void HandleVictory() {
         Debug.Log("Victory");

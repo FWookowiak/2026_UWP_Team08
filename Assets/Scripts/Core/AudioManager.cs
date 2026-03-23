@@ -1,16 +1,32 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : PersistentSingleton<AudioManager>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Awake()
     {
-        
+        base.Awake();
+    }
+    private void Start()
+    {
+        // Możecie tu np. od razu odpalić muzykę tła po starcie gry
+        PlayAmbientSound();
+    }
+    public void PlayAmbientSound()
+    {
+        // TODO: Ambience
+        Debug.Log("AudioManager: Playing ambient sound...");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StopAmbientSound()
     {
-        
+        // TODO: Ambience stop
+        Debug.Log("AudioManager: Stopping ambient sound...");
     }
+
+    public void PlaySFX(string clipName)
+    {
+        // TODO: SFX
+        Debug.Log($"AudioManager: Playing SFX - {clipName}");
+    }
+    
 }
