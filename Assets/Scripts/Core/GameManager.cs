@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PersistentSingleton<T> : MonoBehaviour where T : Component
 {
@@ -30,6 +31,12 @@ public class GameManager : PersistentSingleton<GameManager> {
     { base.Awake(); }
     private void Start() {
         ChangeState(GameState.BuildPhase);
+    }
+    private void Update() {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && currentState == GameState.BuildPhase)
+        {
+            ChangeState(GameState.DefensePhase);
+        }
     }
 
     public void ChangeState(GameState newState) {
