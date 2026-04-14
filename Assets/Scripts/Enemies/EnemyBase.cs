@@ -9,9 +9,14 @@ public abstract class EnemyBase : MonoBehaviour{
     private Transform target;
     private int wavepointIndex = 0;
 
+    public System.Action<float, float> OnHealthChanged;
+    public float CurrentHealth => currentHealth;
+    public int WaypointIndex => wavepointIndex;
+
     protected virtual void Start(){
         currentHealth = enemyData.maxHealth;
         currentSpeed = enemyData.moveSpeed;
+        OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
         
         if (Waypoints.points != null && Waypoints.points.Length > 0)
         {
@@ -48,6 +53,7 @@ public abstract class EnemyBase : MonoBehaviour{
     }
     public virtual void TakeDamage(float amount){
         currentHealth -= amount;
+        OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
         if (currentHealth <= 0){
             Die();
         }

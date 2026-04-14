@@ -7,6 +7,9 @@ public class WaveManager : DestroySingleton<WaveManager>
     public WaveData[] allRounds;
     private int currentRoundIndex = 0;
     public int enemiesAlive = 0;
+    
+    public int CurrentRoundIndex => currentRoundIndex;
+    public int TotalRounds => allRounds != null ? allRounds.Length : 0;
     protected override void Awake()
     {
         base.Awake(); 
