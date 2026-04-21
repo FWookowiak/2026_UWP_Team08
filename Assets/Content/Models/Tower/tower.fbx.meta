@@ -3,7 +3,57 @@ guid: 3ef836fd0815cb74eae96150caea5e8b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bricks
+    second: {fileID: 2100000, guid: 28c99e4ec0d22ef4c8fc448e3e49432e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: darkplanks
+    second: {fileID: 2100000, guid: c3fe66089c0cda6448b6b14a44ec6fb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: door
+    second: {fileID: 2100000, guid: 94e0a199e5e3d5b498df4bde742be8f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: roof
+    second: {fileID: 2100000, guid: cd0cff73e6de5a34983cd8274da25275, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall
+    second: {fileID: 2100000, guid: 55ae743aa5690b84ea2c4661a68a8270, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bricks076A_1K-PNG_Color
+    second: {fileID: 2800000, guid: 1eda1bdfab445f3408942b94c2517ff4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PaintedPlaster015_1K-JPG_Color
+    second: {fileID: 2800000, guid: 62f0e557dc890d74c93b22f25cbbff3a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Planks037A_1K-PNG_Color
+    second: {fileID: 2800000, guid: 210bb95f589181c46975cce3fb2cc36a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RoofingTiles015A_1K-JPG_Color
+    second: {fileID: 2800000, guid: c2f0e7638c45a0f41b914a64b0855af2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Sand-Blasted-Arch-Door-1
+    second: {fileID: 2800000, guid: 911d4a874558bc6439b05d479f3e2503, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
