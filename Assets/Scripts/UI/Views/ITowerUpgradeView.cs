@@ -4,7 +4,9 @@ public interface ITowerUpgradeView
     void HidePanel();
     void UpdateUpgradeButtons(TowerUpgradeData[] upgrades, int[] currentLevels, int playerMoney);
     void SetTargetingMode(TargetingMode mode);
+    void UpdateSellButton(int refundAmount);
 
-    event System.Action<int> OnUpgradeClicked; // index ulepszenia
+    event System.Action<int> OnUpgradeClicked;
     event System.Action<TargetingMode> OnStrategyChanged;
+    event System.Action OnSellClicked;
 }
