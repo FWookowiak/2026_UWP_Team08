@@ -56,6 +56,7 @@ public class GameManager : PersistentSingleton<GameManager> {
                 HandleDefeat();
                 break;
         }
+        GameEvents.GameStateChanged(currentState);
     }
 
     public void HandleBuildPhase() {
