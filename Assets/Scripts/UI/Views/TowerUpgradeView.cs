@@ -11,8 +11,13 @@ public class TowerUpgradeView : MonoBehaviour, ITowerUpgradeView
     [SerializeField] private TextMeshProUGUI[] upgradeLabels;
     [SerializeField] private Button[] strategyButtons;
 
+    [Header("Sell")]
+    [SerializeField] private Button sellButton;
+    [SerializeField] private TextMeshProUGUI sellLabel;
+
     public event System.Action<int> OnUpgradeClicked;
     public event System.Action<TargetingMode> OnStrategyChanged;
+    public event System.Action OnSellClicked;
 
     private void Start()
     {
@@ -29,6 +34,9 @@ public class TowerUpgradeView : MonoBehaviour, ITowerUpgradeView
             strategyButtons[i].onClick.AddListener(() =>
                 OnStrategyChanged?.Invoke(mode));
         }
+
+        if (sellButton != null)
+            sellButton.onClick.AddListener(() => OnSellClicked?.Invoke());
     }
 
     public void ShowPanel(string towerName, float range, float fireRate, float damage)
@@ -68,5 +76,11 @@ public class TowerUpgradeView : MonoBehaviour, ITowerUpgradeView
                 : Color.white;
             strategyButtons[i].colors = colors;
         }
+    }
+
+    public void UpdateSellButton(int refundAmount)
+    {
+        if (sellLabel != null)
+            sellLabel.text = $"Sprzedaj\n+${refundAmount}";
     }
 }

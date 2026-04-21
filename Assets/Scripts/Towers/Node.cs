@@ -3,11 +3,14 @@ using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour
 {
-    public Color hoverColor;
+    public Color hoverColor = Color.cyan;
+    public Color cantBuildColor = Color.red;
+    public Color occupiedColor = Color.yellow;
     public Vector3 positionOffset;
 
-    [Header("Optional")]
+    [Header("State")]
     public GameObject tower;
+    public TowerConfig towerConfig; // zapamiętaj config (do sprzedaży)
 
     private Renderer rend;
     private Color startColor;
@@ -16,9 +19,7 @@ public class Node : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         if (rend != null)
-        {
             startColor = rend.material.color;
-        }
     }
 
     public Vector3 GetBuildPosition()
@@ -31,9 +32,17 @@ public class Node : MonoBehaviour
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
+        // Jeśli wieża stoi — zaznacz ją (do panelu upgrade / sprzedaży)
         if (tower != null)
         {
-            Debug.Log("Can't build there! - TODO: Display on screen.");
+            TowerBase tb = tower.GetComponent<TowerBase>();
+            if (tb != null)
+            {
+                // Znajdź TowerUpgradePresenter i zaznacz
+                var presenter = FindObjectOfType<TowerUpgradePresenter>();
+                if (presenter != null)
+                    presenter.SelectTower(tb, this);
+            }
             return;
         }
 
@@ -48,24 +57,24 @@ public class Node : MonoBehaviour
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!BuildManager.Instance.CanBuild)
-            return;
+        if (rend == null) return;
 
-        if (BuildManager.Instance.HasMoney && rend != null)
+        if (tower != null)
         {
-            rend.material.color = hoverColor;
+            rend.material.color = occupiedColor;
+            return;
         }
-        else if (rend != null)
-        {
-            rend.material.color = Color.red;
-        }
+
+        if (!BuildManager.Instance.CanBuild) return;
+
+        rend.material.color = BuildManager.Instance.HasMoney 
+            ? hoverColor 
+            : cantBuildColor;
     }
 
     private void OnMouseExit()
     {
         if (rend != null)
-        {
             rend.material.color = startColor;
-        }
     }
 }

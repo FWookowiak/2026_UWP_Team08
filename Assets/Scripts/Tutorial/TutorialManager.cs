@@ -78,6 +78,17 @@ public class TutorialManager : MonoBehaviour
             description = "W panelu wieży możesz zmienić strategię celowania: Najbliższy, Najsilniejszy, Najsłabszy lub Pierwszy wróg na ścieżce.",
             requiresAction = false
         });
+        
+        steps.Add(new TutorialStep
+        {
+            stepId = "sell_tower",
+            title = "Sprzedawanie wież",
+            description = "Kliknij na wieżę, a następnie naciśnij przycisk 'Sprzedaj' w panelu. " +
+                          "Otrzymasz 50% kosztów budowy z powrotem. " +
+                          "Sprzedawaj wieże, które nie są już potrzebne, aby odzyskać złoto!",
+            highlightTargetName = "SellButton",
+            requiresAction = false
+        });
     }
 
     public void StartTutorial()
