@@ -16,6 +16,10 @@ public class TowerUpgradePresenter : MonoBehaviour
         upgradeView.OnSellClicked += HandleSell;
         upgradeView.HidePanel();
     }
+    private void OnEnable()  { GameEvents.OnTowerSelected += OnNodeSelected; }
+    private void OnDisable() { GameEvents.OnTowerSelected -= OnNodeSelected; }
+
+    private void OnNodeSelected(TowerBase tower, Node node) => SelectTower(tower, node);
 
     public void SelectTower(TowerBase tower, Node node = null)
     {
