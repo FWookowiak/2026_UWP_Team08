@@ -22,45 +22,15 @@ public class BuildManager : PersistentSingleton<BuildManager>
     {
         if (towerToBuild == null) return;
 
-        if (PlayerStats.Money < towerToBuild.cost)
-        {
-            Debug.Log("Za mało złota!");
-            return;
-        }
-
-        PlayerStats.Money -= towerToBuild.cost;
-        GameEvents.MoneyChanged(PlayerStats.Money);
-
-        GameObject tower = Instantiate(
-            towerToBuild.prefab, 
-            node.GetBuildPosition(), 
-            Quaternion.identity
-        );
-        node.tower = tower;
-        node.towerConfig = towerToBuild;
-
-        GameEvents.TowerBuilt(tower, node, towerToBuild.cost);
-        Debug.Log($"Zbudowano wieżę! Koszt: {towerToBuild.cost}");
+        var command = new BuildTowerCommand(node, towerToBuild);
+        CommandManager.Instance.Execute(command);
     }
 
-    /// <summary>
-    /// Sprzedaż wieży — zwraca część kosztu (50%).
-    /// </summary>
     public void SellTowerOn(Node node)
     {
         if (node.tower == null) return;
 
-        int refund = Mathf.RoundToInt(node.towerConfig.cost * 0.5f);
-        
-        GameEvents.TowerSold(node.tower, node, refund);
-        
-        PlayerStats.Money += refund;
-        GameEvents.MoneyChanged(PlayerStats.Money);
-
-        Destroy(node.tower);
-        node.tower = null;
-        node.towerConfig = null;
-
-        Debug.Log($"Sprzedano wieżę! Zwrot: {refund}");
+        var command = new SellTowerCommand(node);
+        CommandManager.Instance.Execute(command);
     }
 }

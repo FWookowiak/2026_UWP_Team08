@@ -61,12 +61,9 @@ public class TowerUpgradePresenter : MonoBehaviour
         if (PlayerStats.Money < data.cost) return;
         if (upgradeLevels[index] >= data.maxLevel) return;
 
-        PlayerStats.Money -= data.cost;
-        GameEvents.MoneyChanged(PlayerStats.Money);
+        var command = new UpgradeTowerCommand(selectedTower, data);
+        CommandManager.Instance.Execute(command);
         upgradeLevels[index]++;
-
-        selectedTower.range += data.rangeBonus;
-        selectedTower.fireRate += data.fireRateBonus;
 
         SelectTower(selectedTower, selectedNode);
     }
@@ -74,7 +71,9 @@ public class TowerUpgradePresenter : MonoBehaviour
     private void HandleStrategyChange(TargetingMode mode)
     {
         if (selectedTower == null) return;
-        selectedTower.CurrentTargetingMode = mode;
+
+        var command = new ChangeStrategyCommand(selectedTower, mode);
+        CommandManager.Instance.Execute(command);
         upgradeView.SetTargetingMode(mode);
     }
 
