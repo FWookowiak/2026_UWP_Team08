@@ -39,7 +39,7 @@ public class Node : MonoBehaviour
             if (tb != null)
             {
                 // Znajdź TowerUpgradePresenter i zaznacz
-                var presenter = FindObjectOfType<TowerUpgradePresenter>();
+                var presenter = FindFirstObjectByType<TowerUpgradePresenter>();
                 if (presenter != null)
                     presenter.SelectTower(tb, this);
             }
