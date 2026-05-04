@@ -23,6 +23,12 @@ public class TutorialView : MonoBehaviour, ITutorialView
         nextButton.onClick.AddListener(() => OnNextClicked?.Invoke());
         skipButton.onClick.AddListener(() => OnSkipClicked?.Invoke());
     }
+    
+    public void ShowNextButton(bool show)
+    {
+        if (nextButton != null)
+            nextButton.gameObject.SetActive(show);
+    }
 
     public void ShowStep(string title, string description)
     {

@@ -5,7 +5,7 @@ public interface ITutorialView
     void HighlightElement(UnityEngine.GameObject target);
     void ClearHighlight();
     void ShowSkipButton(bool show);
-
+    void ShowNextButton(bool show);
     event System.Action OnNextClicked;
     event System.Action OnSkipClicked;
 }
