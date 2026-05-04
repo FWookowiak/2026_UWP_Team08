@@ -57,7 +57,9 @@ public static class GameEvents
     {
         OnWaveCompleted?.Invoke(waveIndex);
     }
-
+    public static event Action<TowerBase, Node> OnTowerSelected;
+    public static void TowerSelected(TowerBase tower, Node node)
+        => OnTowerSelected?.Invoke(tower, node);
     public static void MoneyChanged(int newAmount)
     {
         OnMoneyChanged?.Invoke(newAmount);

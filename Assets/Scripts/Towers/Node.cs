@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class Node : MonoBehaviour
 
     [Header("State")]
     public GameObject tower;
-    public TowerConfig towerConfig; // zapamiętaj config (do sprzedaży)
+    public TowerConfig towerConfig;
 
     private Renderer rend;
     private Color startColor;
@@ -26,37 +25,24 @@ public class Node : MonoBehaviour
     {
         return transform.position + positionOffset;
     }
-
-    private void OnMouseDown()
+    
+    public void HandleClick()
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        // Jeśli wieża stoi — zaznacz ją (do panelu upgrade / sprzedaży)
         if (tower != null)
         {
             TowerBase tb = tower.GetComponent<TowerBase>();
             if (tb != null)
-            {
-                // Znajdź TowerUpgradePresenter i zaznacz
-                var presenter = FindObjectOfType<TowerUpgradePresenter>();
-                if (presenter != null)
-                    presenter.SelectTower(tb, this);
-            }
+                GameEvents.TowerSelected(tb, this);
             return;
         }
 
-        if (!BuildManager.Instance.CanBuild)
+        if (BuildManager.Instance == null || !BuildManager.Instance.CanBuild)
             return;
 
         BuildManager.Instance.BuildTowerOn(this);
     }
-
-    private void OnMouseEnter()
+    public void OnHoverEnter()
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
         if (rend == null) return;
 
         if (tower != null)
@@ -65,14 +51,12 @@ public class Node : MonoBehaviour
             return;
         }
 
-        if (!BuildManager.Instance.CanBuild) return;
+        if (BuildManager.Instance == null || !BuildManager.Instance.CanBuild) return;
 
-        rend.material.color = BuildManager.Instance.HasMoney 
-            ? hoverColor 
-            : cantBuildColor;
+        rend.material.color = BuildManager.Instance.HasMoney ? hoverColor : cantBuildColor;
     }
 
-    private void OnMouseExit()
+    public void OnHoverExit()
     {
         if (rend != null)
             rend.material.color = startColor;
