@@ -3,17 +3,17 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
+    public Animator animator;
     public EnemyData enemyData;
     protected float currentHealth;
     protected float currentSpeed;
 
     private Transform target;
     private int wavepointIndex = 0;
+    private bool isDead = false;
 
-    // Lokalny event (dla paska HP)
     public Action<float, float> OnHealthChanged;
     
-    // Publiczny dostęp (dla strategii celowania)
     public float CurrentHealth => currentHealth;
     public int WaypointIndex => wavepointIndex;
 
@@ -24,19 +24,39 @@ public abstract class EnemyBase : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
 
         if (Waypoints.points != null && Waypoints.points.Length > 0)
+        {
             target = Waypoints.points[0];
+        }
     }
 
     protected virtual void Update()
     {
+        if (isDead) return;
+
         if (target != null)
+        {
             Move();
+        
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            bool shouldBeWalking = currentSpeed > 0.1f && distanceToTarget > 0.1f;
+        
+            if (animator.GetBool("isWalking") != shouldBeWalking)
+            {
+                animator.SetBool("isWalking", shouldBeWalking);
+            }
+        }
     }
 
     protected virtual void Move()
     {
         Vector3 dir = target.position - transform.position;
         transform.Translate(dir.normalized * currentSpeed * Time.deltaTime, Space.World);
+
+        if (dir != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        }
 
         if (Vector3.Distance(transform.position, target.position) <= 0.2f)
             GetNextWaypoint();
@@ -55,30 +75,51 @@ public abstract class EnemyBase : MonoBehaviour
 
     public virtual void TakeDamage(float amount)
     {
+        if (isDead) return;
+
         currentHealth -= amount;
         OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
+
+        animator.SetTrigger("GotHit");
+
         if (currentHealth <= 0)
             Die();
     }
 
     protected virtual void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
+        animator.SetTrigger("Die1");
+
+        currentSpeed = 0;
+        Collider col = GetComponent<Collider>();
+        if (col != null) 
+        {
+            col.enabled = false;
+        }
+        else 
+        {
+            col = GetComponentInChildren<Collider>();
+            if (col != null) col.enabled = false;
+        }
+
         PlayerStats.Money += enemyData.goldReward;
         GameEvents.MoneyChanged(PlayerStats.Money);
-        
-        // Observer — globalny event o zabiciu wroga
         GameEvents.EnemyKilled(this, enemyData.goldReward);
         
         WaveManager.Instance.OnEnemyRemoved();
-        Destroy(gameObject);
+
+        Destroy(gameObject, 5f); 
     }
 
     protected virtual void ReachGoal()
     {
+        if (isDead) return;
+        
         PlayerStats.Lives -= enemyData.damageToPlayer;
         GameEvents.LivesChanged(PlayerStats.Lives);
-        
-        // Observer — globalny event
         GameEvents.EnemyReachedGoal(this, enemyData.damageToPlayer);
         
         if (PlayerStats.Lives <= 0)
