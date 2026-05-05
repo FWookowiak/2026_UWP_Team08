@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a7bfbd914bc12498ab69732936b64e, type: 3}
   m_Name: Tier1GroupData
   m_EditorClassIdentifier: Assembly-CSharp::WaveGroup
-  enemyPrefab: {fileID: 5467031146015220865, guid: 12be1d94412f00741bb447caf8473679, type: 3}
+  enemyPrefab: {fileID: 8866703760307472903, guid: 57933f217cb00d84eb26a7c725b23230, type: 3}
   count: 5
   spawnInterval: 1
   delayBeforeNextGroup: 3
