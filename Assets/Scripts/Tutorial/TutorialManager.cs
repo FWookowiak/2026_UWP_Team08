@@ -17,17 +17,19 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnTowerBuilt += HandleTowerBuilt;
-        GameEvents.OnTowerSold  += HandleTowerSold;
+        GameEvents.OnTowerSold += HandleTowerSold;
         GameEvents.OnEnemyKilled += HandleEnemyKilled;
         GameEvents.OnWaveStarted += HandleWaveStarted;
+        GameEvents.OnTowerTypeSelected += HandleTowerTypeSelected;  
     }
 
     private void OnDisable()
     {
         GameEvents.OnTowerBuilt -= HandleTowerBuilt;
-        GameEvents.OnTowerSold  -= HandleTowerSold;
+        GameEvents.OnTowerSold -= HandleTowerSold;
         GameEvents.OnEnemyKilled -= HandleEnemyKilled;
         GameEvents.OnWaveStarted -= HandleWaveStarted;
+        GameEvents.OnTowerTypeSelected -= HandleTowerTypeSelected; 
     }
 
     private void Start()
@@ -49,20 +51,20 @@ public class TutorialManager : MonoBehaviour
         {
             stepId = "welcome",
             title = "Witaj w Tower Defense!",
-            description = "Twoim celem jest obrona bazy przed falami wrogów.",
+            description = "Twoim celem jest obrona bazy przed falami wrogów. Naciśnij 'Dalej', aby kontynuować.",
             requiresAction = false
         });
 
         steps.Add(new TutorialStep
         {
             stepId = "select_tower",
-            title = "Wybór wieży",
-            description = "Najpierw wybierz typ wieży klikając przycisk na dolnym pasku.",
+            title = "Wybierz wieżę",
+            description = "Kliknij przycisk wieży na dolnym pasku, aby wybrać typ wieży do postawienia.",
             highlightTargetName = "TowerBtn1",
-            requiresAction = false
+            requiresAction = true,
+            requiredActionId = "tower_type_selected"
         });
 
-        // KLUCZOWY KROK — czeka na faktyczne postawienie wieży
         steps.Add(new TutorialStep
         {
             stepId = "place_tower",
@@ -89,6 +91,8 @@ public class TutorialManager : MonoBehaviour
         });
     }
 
+    private void HandleTowerTypeSelected(TowerConfig config) => NotifyAction("tower_type_selected");
+    
     public void StartTutorial()
     {
         tutorialActive = true;

@@ -17,11 +17,10 @@ public class TowerBase : MonoBehaviour
     public TargetingMode CurrentTargetingMode = TargetingMode.Closest;
 
     private Transform target;
-    private bool isActive = true; // kontrolowane przez Observer
+    private bool isActive = true;
 
     private void OnEnable()
     {
-        // Observer — wieża reaguje na zmianę stanu gry
         GameEvents.OnGameStateChanged += HandleGameStateChanged;
         GameEvents.OnWaveStarted += HandleWaveStarted;
         GameEvents.OnWaveCompleted += HandleWaveCompleted;
@@ -39,25 +38,17 @@ public class TowerBase : MonoBehaviour
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
     }
 
-    /// <summary>
-    /// Observer callback — wieża reaguje na zmianę fazy gry.
-    /// W BuildPhase przestaje strzelać, w DefensePhase wznawia.
-    /// </summary>
     private void HandleGameStateChanged(GameState newState)
     {
         switch (newState)
         {
-            case GameState.BuildPhase:
-                isActive = false;
-                target = null;
-                break;
-            case GameState.DefensePhase:
-                isActive = true;
-                break;
             case GameState.Victory:
             case GameState.Defeat:
                 isActive = false;
                 target = null;
+                break;
+            default:
+                isActive = true;
                 break;
         }
     }
@@ -65,12 +56,10 @@ public class TowerBase : MonoBehaviour
     private void HandleWaveStarted(int current, int total)
     {
         isActive = true;
-        Debug.Log($"{gameObject.name}: Fala {current} — aktywuję obronę!");
     }
 
     private void HandleWaveCompleted(int waveIndex)
     {
-        Debug.Log($"{gameObject.name}: Fala {waveIndex + 1} pokonana.");
     }
 
     private void UpdateTarget()
@@ -86,6 +75,12 @@ public class TowerBase : MonoBehaviour
     {
         if (!isActive || target == null)
             return;
+        
+        if (Vector3.Distance(transform.position, target.position) > range)
+        {
+            target = null;
+            return;
+        }
 
         LockOnTarget();
 
@@ -105,7 +100,7 @@ public class TowerBase : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(
-            partToRotate.rotation, lookRotation, 
+            partToRotate.rotation, lookRotation,
             Time.deltaTime * turnSpeed
         ).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
@@ -113,6 +108,8 @@ public class TowerBase : MonoBehaviour
 
     private void Shoot()
     {
+        if (projectilePrefab == null || firePoint == null) return;
+
         GameObject projGO = Instantiate(
             projectilePrefab, firePoint.position, firePoint.rotation
         );

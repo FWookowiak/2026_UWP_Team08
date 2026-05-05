@@ -60,6 +60,10 @@ public static class GameEvents
     public static event Action<TowerBase, Node> OnTowerSelected;
     public static void TowerSelected(TowerBase tower, Node node)
         => OnTowerSelected?.Invoke(tower, node);
+    
+    public static event Action<TowerConfig> OnTowerTypeSelected;
+    public static void TowerTypeSelected(TowerConfig config)
+        => OnTowerTypeSelected?.Invoke(config);
     public static void MoneyChanged(int newAmount)
     {
         OnMoneyChanged?.Invoke(newAmount);
