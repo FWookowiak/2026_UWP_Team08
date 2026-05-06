@@ -44,11 +44,9 @@ public class SellTowerCommand : ICommand
 
     public void Undo()
     {
-        // Odbierz zwrot
         PlayerStats.Money -= refundAmount;
         GameEvents.MoneyChanged(PlayerStats.Money);
 
-        // Postaw wieżę z powrotem z zachowanymi statami
         var rebuilt = Object.Instantiate(config.prefab, node.GetBuildPosition(), Quaternion.identity);
         node.tower = rebuilt;
         node.towerConfig = config;
@@ -61,6 +59,6 @@ public class SellTowerCommand : ICommand
             tb.CurrentTargetingMode = savedMode;
         }
 
-        GameEvents.TowerBuilt(rebuilt, node, 0); // koszt 0 — nie pobieramy ponownie
+        GameEvents.TowerBuilt(rebuilt, node, 0);
     }
 }

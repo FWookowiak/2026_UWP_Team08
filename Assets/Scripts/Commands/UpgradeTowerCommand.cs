@@ -23,7 +23,6 @@ public class UpgradeTowerCommand : ICommand
 
         tower.range += upgradeData.rangeBonus;
         tower.fireRate += upgradeData.fireRateBonus;
-        // damageBonus aplikowany w Projectile (jeśli używany)
     }
 
     public void Undo()

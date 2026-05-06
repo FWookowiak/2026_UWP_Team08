@@ -33,9 +33,8 @@ public class CommandManager : PersistentSingleton<CommandManager>
     {
         command.Execute();
         undoStack.Push(command);
-        redoStack.Clear(); // nowa akcja unieważnia redo
+        redoStack.Clear();
 
-        // Limit pamięci
         if (undoStack.Count > maxHistorySize)
         {
             var tmp = new Stack<ICommand>(undoStack);
