@@ -13,15 +13,15 @@ public class ChangeStrategyCommand : ICommand
         this.previousMode = tower.CurrentTargetingMode;
     }
 
-    public void Execute()
-    {
-        if (tower == null) return;
-        tower.CurrentTargetingMode = newMode;
-    }
-
-    public void Undo()
-    {
-        if (tower == null) return;
-        tower.CurrentTargetingMode = previousMode;
-    }
+   public void Execute()
+   {
+       if (tower == null) return;
+       tower.SetTargetingMode(newMode);
+   }
+   
+   public void Undo()
+   {
+       if (tower == null) return;
+       tower.SetTargetingMode(previousMode);
+   }
 }

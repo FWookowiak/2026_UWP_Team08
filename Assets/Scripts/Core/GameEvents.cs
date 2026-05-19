@@ -25,6 +25,8 @@ public static class GameEvents
     
     // --- Stan gry ---
     public static event Action<GameState> OnGameStateChanged;         // newState
+    
+    public static event Action<TowerBase, TargetingMode> OnStrategyChanged;
 
     // ============ Invoke methods ============
 
@@ -77,5 +79,9 @@ public static class GameEvents
     public static void GameStateChanged(GameState newState)
     {
         OnGameStateChanged?.Invoke(newState);
+    }
+    
+    public static void StrategyChanged(TowerBase tower, TargetingMode mode){
+        OnStrategyChanged?.Invoke(tower, mode);
     }
 }

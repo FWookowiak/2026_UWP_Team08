@@ -14,10 +14,26 @@ public class TowerBase : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform firePoint;
 
-    public TargetingMode CurrentTargetingMode = TargetingMode.Closest;
+    [Header("Targeting")]
+    [SerializeField] private TargetingMode startMode = TargetingMode.Closest;
+    public TargetingMode CurrentTargetingMode { get; private set; }
 
+    private ITargetingStrategy strategy;
     private Transform target;
     private bool isActive = true;
+
+    private void Start()
+    {
+        SetTargetingMode(startMode);
+        InvokeRepeating(nameof(UpdateTarget), 0f, 0.5f);
+    }
+
+    public void SetTargetingMode(TargetingMode mode)
+    {
+        CurrentTargetingMode = mode;
+        strategy = TargetingStrategyFactory.Create(mode);
+        GameEvents.StrategyChanged(this, mode);
+    }
 
     private void OnEnable()
     {
@@ -33,19 +49,13 @@ public class TowerBase : MonoBehaviour
         GameEvents.OnWaveCompleted -= HandleWaveCompleted;
     }
 
-    private void Start()
-    {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
-    }
-
     private void HandleGameStateChanged(GameState newState)
     {
         switch (newState)
         {
             case GameState.Victory:
             case GameState.Defeat:
-                isActive = false;
-                target = null;
+                isActive = false; target = null;
                 break;
             default:
                 isActive = true;
@@ -53,29 +63,19 @@ public class TowerBase : MonoBehaviour
         }
     }
 
-    private void HandleWaveStarted(int current, int total)
-    {
-        isActive = true;
-    }
-
-    private void HandleWaveCompleted(int waveIndex)
-    {
-    }
+    private void HandleWaveStarted(int c, int t) => isActive = true;
+    private void HandleWaveCompleted(int w) { }
 
     private void UpdateTarget()
     {
-        if (!isActive) return;
-
-        target = TargetingStrategy.GetTarget(
-            transform.position, range, enemyTag, CurrentTargetingMode
-        );
+        if (!isActive || strategy == null) return;
+        target = strategy.SelectTarget(transform.position, range, enemyTag);
     }
 
     private void Update()
     {
-        if (!isActive || target == null)
-            return;
-        
+        if (!isActive || target == null) return;
+
         if (Vector3.Distance(transform.position, target.position) > range)
         {
             target = null;
@@ -89,33 +89,24 @@ public class TowerBase : MonoBehaviour
             Shoot();
             fireCountdown = 1f / fireRate;
         }
-
         fireCountdown -= Time.deltaTime;
     }
 
     private void LockOnTarget()
     {
         if (partToRotate == null) return;
-
         Vector3 dir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(
-            partToRotate.rotation, lookRotation,
-            Time.deltaTime * turnSpeed
-        ).eulerAngles;
+        Vector3 rotation = Quaternion.Lerp( partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed ).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
     private void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
-
-        GameObject projGO = Instantiate(
-            projectilePrefab, firePoint.position, firePoint.rotation
-        );
+        GameObject projGO = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Projectile projectile = projGO.GetComponent<Projectile>();
-        if (projectile != null)
-            projectile.Seek(target);
+        if (projectile != null) projectile.Seek(target);
     }
 
     private void OnDrawGizmosSelected()
