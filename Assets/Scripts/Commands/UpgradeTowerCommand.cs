@@ -23,6 +23,8 @@ public class UpgradeTowerCommand : ICommand
 
         tower.range += upgradeData.rangeBonus;
         tower.fireRate += upgradeData.fireRateBonus;
+
+        GameEvents.TowerUpgraded(tower, upgradeData);
     }
 
     public void Undo()

@@ -21,6 +21,9 @@ public class TutorialManager : MonoBehaviour
         GameEvents.OnEnemyKilled += HandleEnemyKilled;
         GameEvents.OnWaveStarted += HandleWaveStarted;
         GameEvents.OnTowerTypeSelected += HandleTowerTypeSelected;  
+        GameEvents.OnTowerSelected += HandleTowerSelected; 
+        GameEvents.OnTowerUpgraded += HandleTowerUpgraded;
+        GameEvents.OnStrategyChanged += HandleStrategyChanged; 
     }
 
     private void OnDisable()
@@ -30,6 +33,9 @@ public class TutorialManager : MonoBehaviour
         GameEvents.OnEnemyKilled -= HandleEnemyKilled;
         GameEvents.OnWaveStarted -= HandleWaveStarted;
         GameEvents.OnTowerTypeSelected -= HandleTowerTypeSelected; 
+        GameEvents.OnTowerSelected -= HandleTowerSelected;
+        GameEvents.OnTowerUpgraded -= HandleTowerUpgraded;
+        GameEvents.OnStrategyChanged -= HandleStrategyChanged;
     }
 
     private void Start()
@@ -88,6 +94,34 @@ public class TutorialManager : MonoBehaviour
             title = "Naciśnij Spację",
             description = "Gdy będziesz gotów, naciśnij Spację, aby rozpocząć falę wrogów.",
             requiresAction = false
+        });
+        steps.Add(new TutorialStep
+        {
+            stepId = "select_built_tower",
+            title = "Zarządzanie wieżą",
+            description = "Kliknij na postawioną wieżę, aby otworzyć panel zarządzania.",
+            requiresAction = true,
+            requiredActionId = "tower_selected"
+        });
+
+        steps.Add(new TutorialStep
+        {
+            stepId = "upgrade_tower",
+            title = "Ulepsz wieżę",
+            description = "Naciśnij przycisk ulepszenia w panelu. Ulepszenie kosztuje złoto i zwiększa statystyki wieży.",
+            highlightTargetName = "UpgradeBtn1",
+            requiresAction = true,
+            requiredActionId = "tower_upgraded"
+        });
+
+        steps.Add(new TutorialStep
+        {
+            stepId = "change_strategy",
+            title = "Zmień strategię",
+            description = "Wieża może celować w różny sposób. Wybierz jedną ze strategii: najbliższy, najsilniejszy, najsłabszy, pierwszy na ścieżce.",
+            highlightTargetName = "StrategyBtn_Strongest",
+            requiresAction = true,
+            requiredActionId = "strategy_changed"
         });
     }
 
@@ -156,6 +190,9 @@ public class TutorialManager : MonoBehaviour
     private void HandleTowerSold(GameObject t, Node n, int r) => NotifyAction("tower_sold");
     private void HandleEnemyKilled(EnemyBase e, int g) => NotifyAction("enemy_killed");
     private void HandleWaveStarted(int cur, int total) => NotifyAction("wave_started");
+    private void HandleTowerSelected(TowerBase tower, Node node) => NotifyAction("tower_selected");
+    private void HandleTowerUpgraded(TowerBase tower, TowerUpgradeData data) => NotifyAction("tower_upgraded");
+    private void HandleStrategyChanged(TowerBase tower, TargetingMode mode) => NotifyAction("strategy_changed");
 
     private void OnDestroy()
     {

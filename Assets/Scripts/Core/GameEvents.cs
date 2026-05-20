@@ -27,6 +27,7 @@ public static class GameEvents
     public static event Action<GameState> OnGameStateChanged;         // newState
     
     public static event Action<TowerBase, TargetingMode> OnStrategyChanged;
+    public static event Action<TowerBase, TowerUpgradeData> OnTowerUpgraded;
 
     // ============ Invoke methods ============
 
@@ -83,5 +84,9 @@ public static class GameEvents
     
     public static void StrategyChanged(TowerBase tower, TargetingMode mode){
         OnStrategyChanged?.Invoke(tower, mode);
+    }
+    
+    public static void TowerUpgraded(TowerBase tower, TowerUpgradeData data){
+        OnTowerUpgraded?.Invoke(tower, data);
     }
 }
