@@ -1,3 +1,11 @@
+public enum TargetingMode
+{
+    Closest,
+    Strongest,
+    Weakest,
+    First
+}
+
 public static class TargetingStrategyFactory
 {
     public static ITargetingStrategy Create(TargetingMode mode)
@@ -12,3 +20,4 @@ public static class TargetingStrategyFactory
         };
     }
 }
+

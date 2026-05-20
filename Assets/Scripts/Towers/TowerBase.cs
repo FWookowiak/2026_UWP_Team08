@@ -16,7 +16,7 @@ public class TowerBase : MonoBehaviour
 
     [Header("Targeting")]
     [SerializeField] private TargetingMode startMode = TargetingMode.Closest;
-    public TargetingMode CurrentTargetingMode { get; private set; }
+    public TargetingMode CurrentTargetingMode { get; set; }
 
     private ITargetingStrategy strategy;
     private Transform target;
