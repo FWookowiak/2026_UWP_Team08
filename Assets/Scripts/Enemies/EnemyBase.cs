@@ -11,6 +11,7 @@ public abstract class EnemyBase : MonoBehaviour
     private Transform target;
     private int wavepointIndex = 0;
     private bool isDead = false;
+    [HideInInspector] public GameObject sourcePrefab;
 
     public Action<float, float> OnHealthChanged;
     
@@ -88,44 +89,45 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
-        if (isDead) return;
-        isDead = true;
-
-        animator.SetTrigger("Die1");
-
-        currentSpeed = 0;
-        Collider col = GetComponent<Collider>();
-        if (col != null) 
-        {
-            col.enabled = false;
-        }
-        else 
-        {
-            col = GetComponentInChildren<Collider>();
-            if (col != null) col.enabled = false;
-        }
-
+        GameEvents.EnemyKilled(this, enemyData.goldReward);
         PlayerStats.Money += enemyData.goldReward;
         GameEvents.MoneyChanged(PlayerStats.Money);
-        GameEvents.EnemyKilled(this, enemyData.goldReward);
-        
+
         WaveManager.Instance.OnEnemyRemoved();
 
-        Destroy(gameObject, 5f); 
+        if (EnemyPool.Instance != null && sourcePrefab != null)
+            EnemyPool.Instance.Despawn(sourcePrefab, this);
+        else
+            Destroy(gameObject);
     }
+
 
     protected virtual void ReachGoal()
     {
-        if (isDead) return;
-        
         PlayerStats.Lives -= enemyData.damageToPlayer;
         GameEvents.LivesChanged(PlayerStats.Lives);
         GameEvents.EnemyReachedGoal(this, enemyData.damageToPlayer);
-        
+
         if (PlayerStats.Lives <= 0)
             GameManager.Instance.TriggerDefeat();
 
         WaveManager.Instance.OnEnemyRemoved();
-        Destroy(gameObject);
+
+        if (EnemyPool.Instance != null && sourcePrefab != null)
+            EnemyPool.Instance.Despawn(sourcePrefab, this);
+        else
+            Destroy(gameObject);
+    }
+    
+    public virtual void Reset()
+    {
+        currentHealth = enemyData.maxHealth;
+        currentSpeed = enemyData.moveSpeed;
+        wavepointIndex = 0;
+
+        if (Waypoints.points != null && Waypoints.points.Length > 0)
+            target = Waypoints.points[0];
+
+        OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
     }
 }

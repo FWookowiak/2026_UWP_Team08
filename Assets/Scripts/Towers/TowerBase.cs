@@ -104,8 +104,18 @@ public class TowerBase : MonoBehaviour
     private void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
-        GameObject projGO = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        Projectile projectile = projGO.GetComponent<Projectile>();
+
+        Projectile projectile;
+        if (ProjectilePool.Instance != null)
+        {
+            projectile = ProjectilePool.Instance.Spawn(firePoint.position, firePoint.rotation);
+        }
+        else
+        {
+            GameObject projGO = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            projectile = projGO.GetComponent<Projectile>();
+        }
+
         if (projectile != null) projectile.Seek(target);
     }
 

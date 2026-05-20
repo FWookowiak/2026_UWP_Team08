@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class EnemyFactory : MonoBehaviour {
-    public Transform enemiesContainer; 
+public class EnemyFactory : MonoBehaviour
+{
+    public Transform enemiesContainer;
 
-    // Główna metoda tworząca wroga
-    public EnemyBase CreateEnemy(GameObject enemyPrefab, Vector3 spawnPosition){
-        GameObject newEnemyObj = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-        
-        if (enemiesContainer != null){
-            newEnemyObj.transform.SetParent(enemiesContainer);
+    public EnemyBase CreateEnemy(GameObject enemyPrefab, Vector3 spawnPosition)
+    {
+        EnemyBase enemy;
+
+        if (EnemyPool.Instance != null)
+        {
+            enemy = EnemyPool.Instance.Spawn(enemyPrefab, spawnPosition);
         }
-        EnemyBase enemyComponent = newEnemyObj.GetComponent<EnemyBase>();
-        if (enemyComponent == null){
-            Debug.LogError($"BŁĄD: Prefab {enemyPrefab.name} nie posiada skryptu dziedziczącego po EnemyBase!");
+        else
+        {
+            GameObject go = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, enemiesContainer);
+            enemy = go.GetComponent<EnemyBase>();
         }
 
-
-        return enemyComponent;
+        enemy.sourcePrefab = enemyPrefab;
+        return enemy;
     }
 }

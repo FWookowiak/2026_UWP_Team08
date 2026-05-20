@@ -3,20 +3,19 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private Transform target;
-
     public float speed = 30f;
     public float damage = 10f;
 
-    public void Seek(Transform _target)
+    public void Seek(Transform newTarget)
     {
-        target = _target;
+        target = newTarget;
     }
 
     private void Update()
     {
         if (target == null)
         {
-            Destroy(gameObject);
+            ReturnToPool();
             return;
         }
 
@@ -35,11 +34,19 @@ public class Projectile : MonoBehaviour
 
     private void HitTarget()
     {
-        EnemyBase e = target.GetComponent<EnemyBase>();
-        if (e != null)
-        {
-            e.TakeDamage(damage);
-        }
-        Destroy(gameObject);
+        EnemyBase enemy = target.GetComponent<EnemyBase>();
+        if (enemy != null) enemy.TakeDamage(damage);
+
+        ReturnToPool();
+    }
+
+    private void ReturnToPool()
+    {
+        target = null;
+
+        if (ProjectilePool.Instance != null)
+            ProjectilePool.Instance.Despawn(this);
+        else
+            Destroy(gameObject);
     }
 }
