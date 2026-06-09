@@ -6,4 +6,5 @@ public class EnemyData : ScriptableObject{
     public float moveSpeed;
     public int goldReward;
     public int damageToPlayer;
+    public int tier = 1;
 }
