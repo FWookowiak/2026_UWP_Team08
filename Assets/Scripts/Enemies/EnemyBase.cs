@@ -131,4 +131,17 @@ public abstract class EnemyBase : MonoBehaviour
 
         OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
     }
+
+    public void ApplySlow(float pct, float time)
+    {
+        StartCoroutine(SlowCoroutine(pct, time));
+    }
+
+    private System.Collections.IEnumerator SlowCoroutine(float pct, float time)
+    {
+        float originalSpeed = enemyData.moveSpeed;
+        currentSpeed = originalSpeed * (1f - pct);
+        yield return new WaitForSeconds(time);
+        currentSpeed = originalSpeed;
+    }
 }

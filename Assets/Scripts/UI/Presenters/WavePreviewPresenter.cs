@@ -19,10 +19,9 @@ public class WavePreviewPresenter : MonoBehaviour
 
             foreach (WaveGroup group in nextWave.waveGroup)
             {
-                int tier = 1;
                 string name = group.enemyPrefab.name;
-                if (name.Contains("2")) tier = 2;
-                else if (name.Contains("3")) tier = 3;
+                EnemyBase enemyBase = group.enemyPrefab.GetComponent<EnemyBase>();
+                int tier = enemyBase != null && enemyBase.enemyData != null ? enemyBase.enemyData.tier : 1;
 
                 previewList.Add(new WavePreviewData
                 {

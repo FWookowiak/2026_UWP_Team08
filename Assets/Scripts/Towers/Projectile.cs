@@ -36,9 +36,17 @@ public class Projectile : MonoBehaviour
     {
         ParticleHelper.SpawnExplosion(transform.position, Color.yellow, 5f, 10);
         EnemyBase enemy = target.GetComponent<EnemyBase>();
-        if (enemy != null) enemy.TakeDamage(damage);
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+            OnHitEnemy(enemy);
+        }
 
         ReturnToPool();
+    }
+
+    protected virtual void OnHitEnemy(EnemyBase enemy)
+    {
     }
 
     private void ReturnToPool()

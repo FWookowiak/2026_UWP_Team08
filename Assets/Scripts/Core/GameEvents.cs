@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine;
+
+public enum EnemyState { Spawned, Moving, ReachedGoal, Dead }
 
 /// <summary>
 /// Statyczny event bus — wzorzec Observer.
