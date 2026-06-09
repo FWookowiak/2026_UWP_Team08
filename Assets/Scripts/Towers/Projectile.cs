@@ -34,6 +34,7 @@ public class Projectile : MonoBehaviour
 
     private void HitTarget()
     {
+        ParticleHelper.SpawnExplosion(transform.position, Color.yellow, 5f, 10);
         EnemyBase enemy = target.GetComponent<EnemyBase>();
         if (enemy != null) enemy.TakeDamage(damage);
 

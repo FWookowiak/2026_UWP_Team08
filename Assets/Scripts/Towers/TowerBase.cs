@@ -104,6 +104,7 @@ public class TowerBase : MonoBehaviour
     private void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
+        ParticleHelper.SpawnExplosion(firePoint.position, Color.white, 3f, 5);
 
         Projectile projectile;
         if (ProjectilePool.Instance != null)

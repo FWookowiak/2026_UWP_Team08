@@ -42,6 +42,25 @@ public class AudioManager : PersistentSingleton<AudioManager>
             if (!string.IsNullOrEmpty(sfx.id) && sfx.clip != null)
                 sfxLookup[sfx.id] = sfx;
         }
+
+        EnsureProceduralSFX("tower_shoot", ProceduralAudio.GenerateShootSound());
+        EnsureProceduralSFX("enemy_hit", ProceduralAudio.GenerateHitSound());
+        EnsureProceduralSFX("enemy_die", ProceduralAudio.GenerateExplosionSound());
+        EnsureProceduralSFX("tower_build", ProceduralAudio.GenerateBuildSound());
+        EnsureProceduralSFX("tower_sell", ProceduralAudio.GenerateSellSound());
+        EnsureProceduralSFX("tower_upgrade", ProceduralAudio.GenerateBuildSound());
+        EnsureProceduralSFX("wave_start", ProceduralAudio.GenerateBuildSound());
+        EnsureProceduralSFX("wave_complete", ProceduralAudio.GenerateSellSound());
+        EnsureProceduralSFX("victory", ProceduralAudio.GenerateBuildSound());
+        EnsureProceduralSFX("defeat", ProceduralAudio.GenerateExplosionSound());
+    }
+
+    private void EnsureProceduralSFX(string id, AudioClip proceduralClip)
+    {
+        if (!sfxLookup.ContainsKey(id))
+        {
+            sfxLookup[id] = new SoundEffect { id = id, clip = proceduralClip, volume = 1f };
+        }
     }
 
     private void OnEnable()
