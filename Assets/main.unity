@@ -2014,7 +2014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &962245678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3181,7 +3181,7 @@ GameObject:
   - component: {fileID: 1394449495}
   - component: {fileID: 1394449494}
   m_Layer: 0
-  m_Name: EndGameView
+  m_Name: EndGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3208,8 +3208,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394449492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2264, y: -0.01939, z: -0.24191}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.2264004, y: -0.01939, z: -0.24190998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3607,7 +3607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1653175087
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4314,7 +4314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2048021003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4947,6 +4947,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1113091785}
   - {fileID: 1431459683}
+  - {fileID: 1394449495}
   - {fileID: 1783695895}
   - {fileID: 911401072}
   - {fileID: 1950703397}
@@ -4962,5 +4963,4 @@ SceneRoots:
   - {fileID: 647414671}
   - {fileID: 1471347666}
   - {fileID: 791495082}
-  - {fileID: 1394449495}
   - {fileID: 567021135}
