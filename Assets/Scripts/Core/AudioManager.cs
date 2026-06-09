@@ -1,17 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Centralny manager audio. Subskrybuje GameEvents (Observer) i odtwarza
-/// odpowiednie dźwięki / muzykę. Obsługuje też dynamiczny system audio (S-5.10).
-/// </summary>
 public class AudioManager : PersistentSingleton<AudioManager>
 {
     [Header("Music")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioClip backgroundMusic;
-    [SerializeField] private AudioClip tenseMusic;    // <50% HP
-    [SerializeField] private AudioClip criticalMusic; // <15% HP
+    [SerializeField] private AudioClip tenseMusic;
+    [SerializeField] private AudioClip criticalMusic;
     [SerializeField] private float musicCrossfadeTime = 1.5f;
 
     [Header("SFX")]
@@ -28,7 +24,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
     [SerializeField] private List<SoundEffect> soundEffects = new();
     private Dictionary<string, SoundEffect> sfxLookup;
 
-    [Header("Dynamic Music (S-5.10)")]
+    [Header("Dynamic Music")]
     [SerializeField] private int totalLives = 20;
     private AudioClip currentMusicTrack;
 
@@ -96,7 +92,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
         PlayMusic(backgroundMusic);
     }
 
-    // ============ MUSIC ============
 
     public void PlayMusic(AudioClip clip)
     {
@@ -131,7 +126,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
 
     public void StopMusic() => musicSource?.Stop();
 
-    // ============ SFX ============
 
     public void PlaySFX(string id)
     {
@@ -143,7 +137,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
             Debug.LogWarning($"[AudioManager] Brak SFX o id '{id}'");
     }
 
-    // ============ HANDLERY EVENTÓW ============
 
     private void HandleTowerBuilt(GameObject t, Node n, int c) => PlaySFX("tower_build");
     private void HandleTowerSold(GameObject t, Node n, int r) => PlaySFX("tower_sell");
@@ -159,8 +152,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
         if (state == GameState.Victory) PlaySFX("victory");
         else if (state == GameState.Defeat) PlaySFX("defeat");
     }
-
-    // ============ DYNAMIC AUDIO (S-5.10) ============
 
     private void HandleLivesChanged(int currentLives)
     {
