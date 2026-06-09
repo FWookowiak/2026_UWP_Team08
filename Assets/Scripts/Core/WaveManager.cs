@@ -23,7 +23,6 @@ public class WaveManager : DestroySingleton<WaveManager>
         {
             WaveData currentWave = allRounds[currentRoundIndex];
             
-            // Observer — emituj event startu fali
             GameEvents.WaveStarted(currentRoundIndex + 1, allRounds.Length);
             
             StartCoroutine(SpawnWaveSequence(currentWave));
@@ -60,7 +59,6 @@ public class WaveManager : DestroySingleton<WaveManager>
 
         if (enemiesAlive <= 0)
         {
-            // Observer — emituj event zakończenia fali
             GameEvents.WaveCompleted(currentRoundIndex - 1);
             
             if (currentRoundIndex < allRounds.Length)

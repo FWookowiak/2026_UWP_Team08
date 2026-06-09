@@ -36,7 +36,6 @@ public class BuildTowerCommand : ICommand
     {
         if (builtTower == null) return;
 
-        // Pełny zwrot przy undo (nie 50% jak przy normalnej sprzedaży)
         PlayerStats.Money += config.cost;
         GameEvents.MoneyChanged(PlayerStats.Money);
 
