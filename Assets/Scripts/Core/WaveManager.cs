@@ -15,6 +15,64 @@ public class WaveManager : DestroySingleton<WaveManager>
     protected override void Awake()
     {
         base.Awake();
+        GenerateProceduralWaves();
+    }
+
+    private void GenerateProceduralWaves()
+    {
+        System.Collections.Generic.List<GameObject> availablePrefabs = new System.Collections.Generic.List<GameObject>();
+        if (allRounds != null)
+        {
+            foreach (var round in allRounds)
+            {
+                if (round != null && round.waveGroup != null)
+                {
+                    foreach (var group in round.waveGroup)
+                    {
+                        if (group != null && group.enemyPrefab != null && !availablePrefabs.Contains(group.enemyPrefab))
+                        {
+                            availablePrefabs.Add(group.enemyPrefab);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (availablePrefabs.Count == 0) return;
+
+        int targetRounds = Mathf.Max(6, allRounds != null ? allRounds.Length : 0);
+        WaveData[] newRounds = new WaveData[targetRounds];
+
+        for (int i = 0; i < targetRounds; i++)
+        {
+            if (allRounds != null && i < allRounds.Length && allRounds[i] != null)
+            {
+                newRounds[i] = allRounds[i];
+            }
+            else
+            {
+                WaveData newWave = ScriptableObject.CreateInstance<WaveData>();
+                newWave.name = $"ProceduralWave_{i + 1}";
+                
+                int numGroups = 1 + (i / 2);
+                newWave.waveGroup = new WaveGroup[numGroups];
+                
+                for (int g = 0; g < numGroups; g++)
+                {
+                    WaveGroup newGroup = ScriptableObject.CreateInstance<WaveGroup>();
+                    int prefabIndex = Mathf.Min(i / 2 + g, availablePrefabs.Count - 1);
+                    newGroup.enemyPrefab = availablePrefabs[prefabIndex];
+                    
+                    newGroup.count = 5 + i * 2 + g;
+                    newGroup.spawnInterval = Mathf.Max(0.2f, 1.5f - (i * 0.1f));
+                    newGroup.delayBeforeNextGroup = 2f;
+                    
+                    newWave.waveGroup[g] = newGroup;
+                }
+                newRounds[i] = newWave;
+            }
+        }
+        allRounds = newRounds;
     }
 
     public void StartNextRound()
