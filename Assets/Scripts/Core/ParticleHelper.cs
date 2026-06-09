@@ -8,11 +8,14 @@ public static class ParticleHelper
         go.transform.position = position;
         ParticleSystem ps = go.AddComponent<ParticleSystem>();
         
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         var main = ps.main;
         main.duration = 0.5f;
-        main.startLifetime = 0.5f;
-        main.startSpeed = speed;
-        main.startSize = 0.5f;
+        main.loop = false;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(0.3f, 0.6f);
+        main.startSpeed = new ParticleSystem.MinMaxCurve(speed * 0.4f, speed);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.3f, 0.7f);
         main.startColor = color;
         main.maxParticles = 100;
         main.playOnAwake = false;
@@ -23,6 +26,20 @@ public static class ParticleHelper
 
         var shape = ps.shape;
         shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.1f;
+
+        var sizeOverLifetime = ps.sizeOverLifetime;
+        sizeOverLifetime.enabled = true;
+        sizeOverLifetime.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.Linear(0f, 1f, 1f, 0f));
+
+        var colorOverLifetime = ps.colorOverLifetime;
+        colorOverLifetime.enabled = true;
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(Color.white, 0.0f), new GradientColorKey(Color.white, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
+        );
+        colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
 
         var renderer = ps.GetComponent<ParticleSystemRenderer>();
         renderer.material = new Material(Shader.Find("Sprites/Default"));
