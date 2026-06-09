@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public abstract class PersistentSingleton<T> : MonoBehaviour where T : Component
 {
@@ -30,8 +31,26 @@ public class GameManager : PersistentSingleton<GameManager> {
     protected override void Awake()
     { base.Awake(); }
     private void Start() {
+        Time.timeScale = 1f;
         ChangeState(GameState.BuildPhase);
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Time.timeScale = 1f;
+        ChangeState(GameState.BuildPhase);
+    }
+
     private void Update() {
         if (Keyboard.current.spaceKey.wasPressedThisFrame && currentState == GameState.BuildPhase)
         {
@@ -68,9 +87,11 @@ public class GameManager : PersistentSingleton<GameManager> {
     }
     public void HandleVictory() {
         Debug.Log("Victory");
+        Time.timeScale = 0f;
     }
     public void HandleDefeat() {
         Debug.Log("Defeat");
+        Time.timeScale = 0f;
     }
 
     public void TriggerVictory() {

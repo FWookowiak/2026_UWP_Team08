@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CommandManager : PersistentSingleton<CommandManager>
 {
@@ -13,6 +14,7 @@ public class CommandManager : PersistentSingleton<CommandManager>
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         if (InputReader.Instance != null)
         {
             InputReader.Instance.OnUndoPerformed += Undo;
@@ -22,11 +24,17 @@ public class CommandManager : PersistentSingleton<CommandManager>
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         if (InputReader.Instance != null)
         {
             InputReader.Instance.OnUndoPerformed -= Undo;
             InputReader.Instance.OnRedoPerformed -= Redo;
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ClearHistory();
     }
 
     public void Execute(ICommand command)

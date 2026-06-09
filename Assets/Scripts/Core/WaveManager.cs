@@ -119,6 +119,8 @@ public class WaveManager : DestroySingleton<WaveManager>
         {
             GameEvents.WaveCompleted(currentRoundIndex - 1);
             
+            if (GameManager.Instance.CurrentState == GameState.Defeat) return;
+
             if (currentRoundIndex < allRounds.Length)
                 GameManager.Instance.ChangeState(GameState.BuildPhase);
             else

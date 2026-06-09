@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ProjectilePool : PersistentSingleton<ProjectilePool>
 {
@@ -7,6 +8,21 @@ public class ProjectilePool : PersistentSingleton<ProjectilePool>
     [SerializeField] private Transform poolParent;
 
     private ObjectPool<Projectile> pool;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (pool != null) pool.ReturnAll();
+    }
 
     protected override void Awake()
     {

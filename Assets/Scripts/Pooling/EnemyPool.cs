@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyPool : PersistentSingleton<EnemyPool>
 {
@@ -14,6 +15,24 @@ public class EnemyPool : PersistentSingleton<EnemyPool>
     [SerializeField] private Transform poolParent;
 
     private Dictionary<GameObject, ObjectPool<EnemyBase>> poolsByPrefab = new();
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        foreach (var pool in poolsByPrefab.Values)
+        {
+            pool.ReturnAll();
+        }
+    }
 
     protected override void Awake()
     {

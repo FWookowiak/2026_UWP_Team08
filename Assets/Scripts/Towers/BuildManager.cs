@@ -1,8 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BuildManager : PersistentSingleton<BuildManager>
 {
     private TowerConfig towerToBuild;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        DeselectTower();
+    }
 
     public bool CanBuild => towerToBuild != null;
     public bool HasMoney => towerToBuild != null && PlayerStats.Money >= towerToBuild.cost;
