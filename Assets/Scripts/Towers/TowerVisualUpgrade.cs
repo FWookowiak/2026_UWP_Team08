@@ -1,14 +1,5 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Komponent na prefabie wieży — zarządza wizualną ewolucją po ulepszeniach.
-/// Obserwuje GameEvents.OnTowerUpgraded i podmienia mesh / aktywuje efekty
-/// w zależności od poziomu ulepszenia.
-/// 
-/// Setup w Inspectorze:
-/// - upgradeStages: tablica wariantów wizualnych (level 0 = bazowy)
-/// - każdy stage to GameObject (child wieży) — aktywny jest tylko jeden naraz
-/// </summary>
 [RequireComponent(typeof(TowerBase))]
 public class TowerVisualUpgrade : MonoBehaviour
 {
@@ -16,8 +7,8 @@ public class TowerVisualUpgrade : MonoBehaviour
     public class UpgradeStage
     {
         public string stageName;
-        public GameObject visualRoot;       // child z odpowiednim mesh
-        public GameObject upgradeEffect;    // particle do zagrania przy ulepszeniu
+        public GameObject visualRoot;
+        public GameObject upgradeEffect;
         [Tooltip("Po ilu łącznych ulepszeniach aktywować ten stage")]
         public int requiredUpgrades;
     }
@@ -36,7 +27,6 @@ public class TowerVisualUpgrade : MonoBehaviour
 
     private void Start()
     {
-        // Pokaż tylko stage 0 (bazowy)
         ApplyStage(0);
     }
 
@@ -74,7 +64,6 @@ public class TowerVisualUpgrade : MonoBehaviour
         }
         else
         {
-            // Mały efekt nawet bez zmiany stage — żeby było czuć ulepszenie
             PlayUpgradeFeedback();
         }
     }
@@ -84,7 +73,6 @@ public class TowerVisualUpgrade : MonoBehaviour
         if (upgradeStages == null || upgradeStages.Length == 0) return;
         stageIndex = Mathf.Clamp(stageIndex, 0, upgradeStages.Length - 1);
 
-        // Wyłącz wszystkie wizualne warianty
         for (int i = 0; i < upgradeStages.Length; i++)
         {
             if (upgradeStages[i].visualRoot != null)
@@ -93,7 +81,6 @@ public class TowerVisualUpgrade : MonoBehaviour
 
         currentStage = stageIndex;
 
-        // Particle effect przy zmianie stage
         var effect = upgradeStages[stageIndex].upgradeEffect;
         if (effect != null)
         {

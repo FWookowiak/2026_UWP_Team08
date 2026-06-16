@@ -13,6 +13,7 @@ public class SlowingProjectile : Projectile
 
     protected override void OnHitEnemy(EnemyBase enemy)
     {
+        ParticleHelper.SpawnFreezeExplosion(transform.position, Color.cyan, 5f, 10);
         enemy.ApplySlow(slowAmount, slowDuration);
     }
 }
