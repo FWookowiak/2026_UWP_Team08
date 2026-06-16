@@ -58,6 +58,9 @@ public static class GameEvents
 
     public static void TowerShot(TowerBase tower, Vector3 position)
         => OnTowerShot?.Invoke(tower, position);
+    
+    public static void FrostTowerShot(TowerBase tower, Vector3 position)
+        => OnTowerShot?.Invoke(tower, position);
 
     public static void TowerDestroyed(TowerBase tower, Vector3 position)  
         => OnTowerDestroyed?.Invoke(tower, position);

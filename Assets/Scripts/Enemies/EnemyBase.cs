@@ -89,7 +89,6 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
-        ParticleHelper.SpawnExplosion(transform.position, Color.red, 15f, 50);
         GameEvents.EnemyKilled(this, enemyData.goldReward);
         PlayerStats.Money += enemyData.goldReward;
         GameEvents.MoneyChanged(PlayerStats.Money);

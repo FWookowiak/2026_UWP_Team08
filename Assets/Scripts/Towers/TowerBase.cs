@@ -19,7 +19,7 @@ public class TowerBase : MonoBehaviour
     public TargetingMode CurrentTargetingMode { get; set; }
 
     private ITargetingStrategy strategy;
-    private Transform target;
+    protected Transform target;
     private bool isActive = true;
     public System.Collections.Generic.Dictionary<string, int> UpgradeLevels { get; private set; } = new System.Collections.Generic.Dictionary<string, int>();
 
@@ -108,24 +108,18 @@ public class TowerBase : MonoBehaviour
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
-    private void Shoot()
+    protected virtual void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
 
-        // event dla AudioManager
         GameEvents.TowerShot(this, firePoint.position);
 
-        ParticleHelper.SpawnExplosion(firePoint.position, Color.white, 3f, 5);
-
         Projectile projectile;
-        if (ProjectilePool.Instance != null)
-        {
+        if (ProjectilePool.Instance != null){
             projectile = ProjectilePool.Instance.Spawn(firePoint.position, firePoint.rotation);
         }
-        else
-        {
-            GameObject projGO = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            projectile = projGO.GetComponent<Projectile>();
+        else{
+            projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation).GetComponent<Projectile>();
         }
 
         if (projectile != null) projectile.Seek(target);
@@ -136,4 +130,5 @@ public class TowerBase : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
     }
+    
 }

@@ -55,6 +55,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
         GameEvents.OnEnemyKilled      += HandleEnemyKilled;
         GameEvents.OnEnemyHit         += HandleEnemyHit;
         GameEvents.OnTowerShot        += HandleTowerShot;
+        GameEvents.OnTowerShot        += HandleFrostTowerShot;
         GameEvents.OnWaveStarted      += HandleWaveStarted;
         GameEvents.OnWaveCompleted    += HandleWaveCompleted;
         GameEvents.OnGameStateChanged += HandleGameStateChanged;
@@ -70,6 +71,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
         GameEvents.OnEnemyKilled      -= HandleEnemyKilled;
         GameEvents.OnEnemyHit         -= HandleEnemyHit;
         GameEvents.OnTowerShot        -= HandleTowerShot;
+        GameEvents.OnTowerShot        -= HandleFrostTowerShot;
         GameEvents.OnWaveStarted      -= HandleWaveStarted;
         GameEvents.OnWaveCompleted    -= HandleWaveCompleted;
         GameEvents.OnGameStateChanged -= HandleGameStateChanged;
@@ -119,6 +121,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
     private void HandleEnemyKilled(EnemyBase e, int g)                => PlaySFX("enemy_die");
     private void HandleEnemyHit(EnemyBase e, Vector3 p)               => PlaySFX("enemy_hit");
     private void HandleTowerShot(TowerBase t, Vector3 p)              => PlaySFX("tower_shoot");
+    private void HandleFrostTowerShot(TowerBase t, Vector3 p)         => PlaySFX("frost_shoot");
     private void HandleWaveStarted(int c, int t)                      => PlaySFX("wave_start");
     private void HandleWaveCompleted(int w)                           => PlaySFX("wave_complete");
 

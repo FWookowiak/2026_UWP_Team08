@@ -399,6 +399,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4848136340259721267, guid: 303e727135d0633469a7215451f99619, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848136340259721267, guid: 303e727135d0633469a7215451f99619, type: 3}
+      propertyPath: m_margin.x
+      value: -50.09427
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848136340259721267, guid: 303e727135d0633469a7215451f99619, type: 3}
+      propertyPath: m_margin.z
+      value: -50.5748
+      objectReference: {fileID: 0}
     - target: {fileID: 5862540254084215230, guid: 303e727135d0633469a7215451f99619, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

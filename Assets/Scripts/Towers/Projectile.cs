@@ -32,9 +32,8 @@ public class Projectile : MonoBehaviour
         transform.LookAt(target);
     }
 
-    private void HitTarget()
-    {
-        ParticleHelper.SpawnExplosion(transform.position, Color.yellow, 5f, 10);
+    private void HitTarget(){
+        SpawnHitVisuals();
         EnemyBase enemy = target.GetComponent<EnemyBase>();
         if (enemy != null)
         {
@@ -57,5 +56,10 @@ public class Projectile : MonoBehaviour
             ProjectilePool.Instance.Despawn(this);
         else
             Destroy(gameObject);
+    }
+    
+    protected virtual void SpawnHitVisuals()
+    {
+        ParticleHelper.SpawnExplosion(transform.position, Color.yellow, 5f, 10);
     }
 }
