@@ -10,23 +10,24 @@ public enum EnemyState { Spawned, Moving, ReachedGoal, Dead }
 public static class GameEvents
 {
     // --- Wieże ---
-    public static event Action<GameObject, Node, int> OnTowerBuilt;
-    public static event Action<GameObject, Node, int> OnTowerSold;
-    public static event Action<TowerBase, Node> OnTowerSelected;
-    public static event Action<TowerConfig> OnTowerTypeSelected;
-    public static event Action<TowerBase, TargetingMode> OnStrategyChanged;
+    public static event Action<GameObject, Node, int>       OnTowerBuilt;
+    public static event Action<GameObject, Node, int>       OnTowerSold;
+    public static event Action<TowerBase, Node>             OnTowerSelected;
+    public static event Action<TowerConfig>                 OnTowerTypeSelected;
+    public static event Action<TowerBase, TargetingMode>    OnStrategyChanged;
     public static event Action<TowerBase, TowerUpgradeData> OnTowerUpgraded;
-    public static event Action<TowerBase, Vector3> OnTowerShot;
+    public static event Action<TowerBase, Vector3>          OnTowerShot;
+    public static event Action<TowerBase, Vector3>          OnTowerDestroyed;   
 
     // --- Wrogowie ---
-    public static event Action<EnemyBase, int> OnEnemyKilled;
-    public static event Action<EnemyBase, int> OnEnemyReachedGoal;
+    public static event Action<EnemyBase, int>    OnEnemyKilled;
+    public static event Action<EnemyBase, int>    OnEnemyReachedGoal;
     public static event Action<EnemyBase, Vector3> OnEnemyHit;
-    public static event Action<EnemyState> OnEnemyStateChanged;
+    public static event Action<EnemyState>        OnEnemyStateChanged;
 
     // --- Fale ---
     public static event Action<int, int> OnWaveStarted;
-    public static event Action<int> OnWaveCompleted;
+    public static event Action<int>      OnWaveCompleted;
 
     // --- Zasoby ---
     public static event Action<int> OnMoneyChanged;
@@ -57,6 +58,9 @@ public static class GameEvents
 
     public static void TowerShot(TowerBase tower, Vector3 position)
         => OnTowerShot?.Invoke(tower, position);
+
+    public static void TowerDestroyed(TowerBase tower, Vector3 position)  
+        => OnTowerDestroyed?.Invoke(tower, position);
 
     public static void EnemyKilled(EnemyBase enemy, int goldReward)
         => OnEnemyKilled?.Invoke(enemy, goldReward);
