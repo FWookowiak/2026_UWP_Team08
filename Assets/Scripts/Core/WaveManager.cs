@@ -128,10 +128,9 @@ public class WaveManager : DestroySingleton<WaveManager>
         }
     }
     
-    public System.Collections.Generic.List<GameObject> GetUpcomingEnemyTypesForActiveRound()
+    public System.Collections.Generic.Dictionary<GameObject, int> GetActiveRoundEnemyCounts()
     {
-        var upcomingTypes = new System.Collections.Generic.List<GameObject>();
-
+        var enemyCounts = new System.Collections.Generic.Dictionary<GameObject, int>();
         int activeRoundIdx = currentRoundIndex - 1;
 
         if (allRounds != null && activeRoundIdx >= 0 && activeRoundIdx < allRounds.Length)
@@ -144,15 +143,16 @@ public class WaveManager : DestroySingleton<WaveManager>
                 {
                     if (group != null && group.enemyPrefab != null)
                     {
-                        if (!upcomingTypes.Contains(group.enemyPrefab))
-                        {
-                            upcomingTypes.Add(group.enemyPrefab);
+                        if (enemyCounts.ContainsKey(group.enemyPrefab)){
+                            enemyCounts[group.enemyPrefab] += group.count;
+                        }else{
+                            enemyCounts[group.enemyPrefab] = group.count;
                         }
                     }
                 }
             }
         }
 
-        return upcomingTypes;
+        return enemyCounts;
     }
 }

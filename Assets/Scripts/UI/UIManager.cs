@@ -23,18 +23,27 @@ public class UIManager : MonoBehaviour
             waveText.text = WaveManager.Instance.currentRoundIndex.ToString();
         }
         
-        var upcomingEnemies = WaveManager.Instance.GetUpcomingEnemyTypesForActiveRound();
+        var upcomingEnemies = WaveManager.Instance.GetActiveRoundEnemyCounts();
 
-        if (upcomingEnemies.Count > 0)
+        if (upcomingEnemies != null && upcomingEnemies.Count > 0)
         {
             string enemyNames = "";
-            for (int i = 0; i < upcomingEnemies.Count; i++)
+            int i = 0;
+            foreach (var kvp in upcomingEnemies)
             {
-                enemyNames += upcomingEnemies[i].name;
-                if (i < upcomingEnemies.Count - 1) enemyNames += ", ";
+                enemyNames += $"{kvp.Key.name} x{kvp.Value}";
+                if (i < upcomingEnemies.Count - 1) 
+                {
+                    enemyNames += ", ";
+                }
+                i++;
             }
     
-            upcomingEnemiesText.text = enemyNames; 
+            if (upcomingEnemiesText != null) upcomingEnemiesText.text = enemyNames; 
+        }
+        else if (upcomingEnemiesText != null)
+        {
+            upcomingEnemiesText.text = "None";
         }
     }
 }
