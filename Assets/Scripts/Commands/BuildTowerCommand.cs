@@ -26,6 +26,7 @@ public class BuildTowerCommand : ICommand
         GameEvents.MoneyChanged(PlayerStats.Money);
 
         builtTower = Object.Instantiate(config.prefab, node.GetBuildPosition(), Quaternion.identity);
+        builtTower.transform.SetParent(node.transform);
         node.tower = builtTower;
         node.towerConfig = config;
 

@@ -91,7 +91,7 @@ public class InputReader : MonoBehaviour
 
         Node currentNode = null;
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, nodeLayer))
-            currentNode = hit.collider.GetComponent<Node>();
+            currentNode = hit.collider.GetComponentInParent<Node>();
 
         if (currentNode != hoveredNode)
         {
@@ -130,7 +130,7 @@ public class InputReader : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(pendingClickPos);
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, nodeLayer))
         {
-            Node node = hit.collider.GetComponent<Node>();
+            Node node = hit.collider.GetComponentInParent<Node>();
             node?.HandleClick();
         }
     }

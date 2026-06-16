@@ -153,7 +153,14 @@ public class TowerUIBuilder : EditorWindow
         // Hide it by default
         panelObj.SetActive(false);
 
-        Debug.Log("Successfully generated Tower Upgrade UI!");
+        // Mark scene as dirty so Unity doesn't discard changes on Play!
+        if (!Application.isPlaying)
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+        }
+
+        Debug.Log("Successfully generated Tower Upgrade UI! Please SAVE the scene (Ctrl+S) before playing.");
     }
 
     private static TextMeshProUGUI CreateText(Transform parent, string name, string text, Vector2 pos, Vector2 size)
