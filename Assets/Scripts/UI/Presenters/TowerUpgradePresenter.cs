@@ -9,33 +9,56 @@ public class TowerUpgradePresenter : MonoBehaviour
     private Node selectedNode;
     private int[] upgradeLevels;
 
+    private void Awake()
+    {
+        Debug.Log("[TowerUpgradePresenter] Awake called! I exist in the scene.");
+    }
+
     private void Start()
     {
-        upgradeView.OnUpgradeClicked += HandleUpgrade;
-        upgradeView.OnStrategyChanged += HandleStrategyChange;
-        upgradeView.OnSellClicked += HandleSell;
-        upgradeView.HidePanel();
+        Debug.Log($"[TowerUpgradePresenter] Start called. upgradeView is null? {upgradeView == null}");
+        if (upgradeView != null)
+        {
+            upgradeView.OnUpgradeClicked += HandleUpgrade;
+            upgradeView.OnStrategyChanged += HandleStrategyChange;
+            upgradeView.OnSellClicked += HandleSell;
+            upgradeView.HidePanel();
+        }
     }
-    private void OnEnable()  { GameEvents.OnTowerSelected += OnNodeSelected; }
-    private void OnDisable() { GameEvents.OnTowerSelected -= OnNodeSelected; }
+    private void OnEnable()  
+    { 
+        Debug.Log("[TowerUpgradePresenter] OnEnable called, subscribing to events.");
+        GameEvents.OnTowerSelected += OnNodeSelected; 
+    }
+    private void OnDisable() 
+    { 
+        Debug.Log("[TowerUpgradePresenter] OnDisable called.");
+        GameEvents.OnTowerSelected -= OnNodeSelected; 
+    }
 
     private void OnNodeSelected(TowerBase tower, Node node) => SelectTower(tower, node);
 
     public void SelectTower(TowerBase tower, Node node = null)
     {
+        Debug.Log($"[TowerUpgradePresenter] SelectTower called. Tower: {tower != null}");
         selectedTower = tower;
         selectedNode = node;
 
-        if (tower == null)
+        if (tower == null || upgradeView == null)
         {
-            upgradeView.HidePanel();
+            if (upgradeView != null) upgradeView.HidePanel();
             return;
+        }
+
+        if (availableUpgrades == null)
+        {
+            availableUpgrades = new TowerUpgradeData[0];
         }
 
         upgradeLevels = new int[availableUpgrades.Length];
         for (int i = 0; i < availableUpgrades.Length; i++)
         {
-            if (tower.UpgradeLevels.TryGetValue(availableUpgrades[i].upgradeName, out int lvl))
+            if (availableUpgrades[i] != null && tower.UpgradeLevels != null && tower.UpgradeLevels.TryGetValue(availableUpgrades[i].upgradeName, out int lvl))
                 upgradeLevels[i] = lvl;
             else
                 upgradeLevels[i] = 0;

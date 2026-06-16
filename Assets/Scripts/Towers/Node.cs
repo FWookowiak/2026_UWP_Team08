@@ -28,9 +28,11 @@ public class Node : MonoBehaviour
     
     public void HandleClick()
     {
+        Debug.Log($"[Node] HandleClick called on {gameObject.name}. Has tower: {tower != null}");
         if (tower != null)
         {
-            TowerBase tb = tower.GetComponent<TowerBase>();
+            TowerBase tb = tower.GetComponentInChildren<TowerBase>();
+            Debug.Log($"[Node] Found TowerBase: {tb != null}");
             if (tb != null)
                 GameEvents.TowerSelected(tb, this);
             return;

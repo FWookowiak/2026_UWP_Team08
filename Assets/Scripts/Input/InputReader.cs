@@ -130,8 +130,13 @@ public class InputReader : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(pendingClickPos);
         if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, nodeLayer))
         {
+            Debug.Log($"[InputReader] Raycast hit: {hit.collider.gameObject.name}");
             Node node = hit.collider.GetComponentInParent<Node>();
             node?.HandleClick();
+        }
+        else
+        {
+            Debug.Log($"[InputReader] Raycast missed or hit non-nodeLayer");
         }
     }
     
