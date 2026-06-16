@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0de9995897185a34aae54e3d1a141133
+guid: 2e8d5e4b05e9b564b9fb0fd070757ca9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MeleeAttack1
+      name: Death2
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 136
+      lastFrame: 181
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
