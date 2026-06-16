@@ -33,6 +33,13 @@ public class TowerUpgradePresenter : MonoBehaviour
         }
 
         upgradeLevels = new int[availableUpgrades.Length];
+        for (int i = 0; i < availableUpgrades.Length; i++)
+        {
+            if (tower.UpgradeLevels.TryGetValue(availableUpgrades[i].upgradeName, out int lvl))
+                upgradeLevels[i] = lvl;
+            else
+                upgradeLevels[i] = 0;
+        }
 
         upgradeView.ShowPanel(
             tower.gameObject.name,
@@ -67,7 +74,6 @@ public class TowerUpgradePresenter : MonoBehaviour
 
         var command = new UpgradeTowerCommand(selectedTower, data);
         CommandManager.Instance.Execute(command);
-        upgradeLevels[index]++;
 
         SelectTower(selectedTower, selectedNode);
     }

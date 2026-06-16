@@ -21,6 +21,7 @@ public class TowerBase : MonoBehaviour
     private ITargetingStrategy strategy;
     private Transform target;
     private bool isActive = true;
+    public System.Collections.Generic.Dictionary<string, int> UpgradeLevels { get; private set; } = new System.Collections.Generic.Dictionary<string, int>();
 
     private void Start()
     {

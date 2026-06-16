@@ -133,7 +133,8 @@ public class TutorialManager : MonoBehaviour
             stepId = "start_wave_hint",
             title = "Naciśnij Spację",
             description = "Gdy będziesz gotów, naciśnij Spację, aby rozpocząć falę wrogów.",
-            requiresAction = false
+            requiresAction = true,
+            requiredActionId = "wave_started"
         });
     }
 

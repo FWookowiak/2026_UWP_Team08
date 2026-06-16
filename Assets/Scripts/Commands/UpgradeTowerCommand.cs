@@ -24,6 +24,11 @@ public class UpgradeTowerCommand : ICommand
         tower.range += upgradeData.rangeBonus;
         tower.fireRate += upgradeData.fireRateBonus;
 
+        if (tower.UpgradeLevels.ContainsKey(upgradeData.upgradeName))
+            tower.UpgradeLevels[upgradeData.upgradeName]++;
+        else
+            tower.UpgradeLevels[upgradeData.upgradeName] = 1;
+
         GameEvents.TowerUpgraded(tower, upgradeData);
     }
 
@@ -36,5 +41,8 @@ public class UpgradeTowerCommand : ICommand
 
         tower.range -= upgradeData.rangeBonus;
         tower.fireRate -= upgradeData.fireRateBonus;
+
+        if (tower.UpgradeLevels.ContainsKey(upgradeData.upgradeName))
+            tower.UpgradeLevels[upgradeData.upgradeName]--;
     }
 }
