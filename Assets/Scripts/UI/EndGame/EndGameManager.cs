@@ -25,14 +25,6 @@ public class EndGameManager : MonoBehaviour
 
     private void HandleGameStateChanged(GameState state)
     {
-        Debug.Log($"EndGameManager received state: {state}");
-        
-        if (endGameView == null) 
-        {
-            Debug.LogError("EndGameManager: EndGameView is NOT assigned in the inspector!");
-            return;
-        }
-
         if (state == GameState.Victory)
         {
             endGameView.ShowScreen("ZWYCIĘSTWO!", "Udało ci się obronić bazę przed wszystkimi falami wrogów.");
