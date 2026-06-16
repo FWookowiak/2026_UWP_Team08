@@ -6,7 +6,7 @@ public class WaveManager : DestroySingleton<WaveManager>
     public EnemyFactory enemyFactory;
     public Transform spawnPoint;
     public WaveData[] allRounds;
-    private int currentRoundIndex = 0;
+    public int currentRoundIndex = 0;
     public int enemiesAlive = 0;
 
     public int CurrentRoundIndex => currentRoundIndex;
@@ -126,5 +126,33 @@ public class WaveManager : DestroySingleton<WaveManager>
             else
                 GameManager.Instance.TriggerVictory();
         }
+    }
+    
+    public System.Collections.Generic.List<GameObject> GetUpcomingEnemyTypesForActiveRound()
+    {
+        var upcomingTypes = new System.Collections.Generic.List<GameObject>();
+
+        int activeRoundIdx = currentRoundIndex - 1;
+
+        if (allRounds != null && activeRoundIdx >= 0 && activeRoundIdx < allRounds.Length)
+        {
+            WaveData currentWave = allRounds[activeRoundIdx];
+
+            if (currentWave != null && currentWave.waveGroup != null)
+            {
+                foreach (var group in currentWave.waveGroup)
+                {
+                    if (group != null && group.enemyPrefab != null)
+                    {
+                        if (!upcomingTypes.Contains(group.enemyPrefab))
+                        {
+                            upcomingTypes.Add(group.enemyPrefab);
+                        }
+                    }
+                }
+            }
+        }
+
+        return upcomingTypes;
     }
 }
