@@ -38,15 +38,21 @@ public class TowerBase : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnGameStateChanged += HandleGameStateChanged;
-        GameEvents.OnWaveStarted += HandleWaveStarted;
-        GameEvents.OnWaveCompleted += HandleWaveCompleted;
+        GameEvents.OnWaveStarted      += HandleWaveStarted;
+        GameEvents.OnWaveCompleted    += HandleWaveCompleted;
     }
 
     private void OnDisable()
     {
         GameEvents.OnGameStateChanged -= HandleGameStateChanged;
-        GameEvents.OnWaveStarted -= HandleWaveStarted;
-        GameEvents.OnWaveCompleted -= HandleWaveCompleted;
+        GameEvents.OnWaveStarted      -= HandleWaveStarted;
+        GameEvents.OnWaveCompleted    -= HandleWaveCompleted;
+    }
+
+    // wywoływane przez SellTowerCommand / Destroy(gameObject)
+    private void OnDestroy()
+    {
+        GameEvents.TowerDestroyed(this, transform.position);
     }
 
     private void HandleGameStateChanged(GameState newState)
@@ -97,13 +103,17 @@ public class TowerBase : MonoBehaviour
         if (partToRotate == null) return;
         Vector3 dir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp( partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed ).eulerAngles;
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
         partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
     private void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
+
+        // event dla AudioManager
+        GameEvents.TowerShot(this, firePoint.position);
+
         ParticleHelper.SpawnExplosion(firePoint.position, Color.white, 3f, 5);
 
         Projectile projectile;
