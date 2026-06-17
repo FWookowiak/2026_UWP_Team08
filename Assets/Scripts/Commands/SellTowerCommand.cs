@@ -5,8 +5,7 @@ public class SellTowerCommand : ICommand
     private readonly Node node;
     private readonly TowerConfig config;
     private readonly int refundAmount;
-
-    // Zapamiętane statystyki, żeby Undo odtworzyło wieżę z ulepszeniami
+    
     private readonly float savedRange;
     private readonly float savedFireRate;
     private readonly TargetingMode savedMode;

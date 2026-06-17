@@ -11,12 +11,10 @@ public class WavePreviewView : MonoBehaviour, IWavePreviewView
     {
         if (previewPanel != null)
             previewPanel.SetActive(true);
-
-        // Wyczyść stare wpisy
+        
         foreach (Transform child in groupContainer)
             Destroy(child.gameObject);
 
-        // Stwórz nowe
         foreach (var group in groups)
         {
             GameObject item = Instantiate(groupItemPrefab, groupContainer);

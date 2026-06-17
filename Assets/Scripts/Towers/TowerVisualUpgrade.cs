@@ -42,12 +42,10 @@ public class TowerVisualUpgrade : MonoBehaviour
 
     private void HandleUpgrade(TowerBase upgradedTower, TowerUpgradeData data)
     {
-        // Tylko jeśli to ta wieża
         if (upgradedTower != tower) return;
 
         totalUpgrades++;
 
-        // Sprawdź czy odblokować nowy stage
         int newStage = currentStage;
         for (int i = upgradeStages.Length - 1; i >= 0; i--)
         {
@@ -87,8 +85,7 @@ public class TowerVisualUpgrade : MonoBehaviour
             GameObject spawned = Instantiate(effect, transform.position, Quaternion.identity);
             Destroy(spawned, 3f);
         }
-
-        // Mały scale boost dla feedbacku
+        
         StartCoroutine(ScalePunch());
     }
 

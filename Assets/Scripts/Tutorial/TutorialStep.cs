@@ -7,7 +7,7 @@ public class TutorialStep
     public string title;
     [TextArea(3, 5)]
     public string description;
-    public string highlightTargetName; // nazwa GameObject do podświetlenia
-    public bool requiresAction;        // czy czeka na akcję gracza
-    public string requiredActionId;    // identyfikator akcji
+    public string highlightTargetName; 
+    public bool requiresAction;       
+    public string requiredActionId;   
 }

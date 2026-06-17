@@ -48,8 +48,7 @@ public class TutorialView : MonoBehaviour, ITutorialView
         if (target == null || highlightOverlay == null) return;
 
         highlightOverlay.SetActive(true);
-
-        // Próbuj dopasować pozycję do obiektu UI
+        
         RectTransform rt = target.GetComponent<RectTransform>();
         if (rt != null && highlightFrame != null)
         {

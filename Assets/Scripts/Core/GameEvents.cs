@@ -3,13 +3,8 @@ using UnityEngine;
 
 public enum EnemyState { Spawned, Moving, ReachedGoal, Dead }
 
-/// <summary>
-/// Statyczny event bus — wzorzec Observer.
-/// Producenci wywołują Invoke, subskrybenci robią += w OnEnable i -= w OnDisable.
-/// </summary>
 public static class GameEvents
 {
-    // --- Wieże ---
     public static event Action<GameObject, Node, int>       OnTowerBuilt;
     public static event Action<GameObject, Node, int>       OnTowerSold;
     public static event Action<TowerBase, Node>             OnTowerSelected;
@@ -18,26 +13,20 @@ public static class GameEvents
     public static event Action<TowerBase, TowerUpgradeData> OnTowerUpgraded;
     public static event Action<TowerBase, Vector3>          OnTowerShot;
     public static event Action<TowerBase, Vector3>          OnTowerDestroyed;   
-
-    // --- Wrogowie ---
+    
     public static event Action<EnemyBase, int>    OnEnemyKilled;
     public static event Action<EnemyBase, int>    OnEnemyReachedGoal;
     public static event Action<EnemyBase, Vector3> OnEnemyHit;
     public static event Action<EnemyState>        OnEnemyStateChanged;
-
-    // --- Fale ---
+    
     public static event Action<int, int> OnWaveStarted;
     public static event Action<int>      OnWaveCompleted;
 
-    // --- Zasoby ---
     public static event Action<int> OnMoneyChanged;
     public static event Action<int> OnLivesChanged;
-
-    // --- Stan gry ---
+    
     public static event Action<GameState> OnGameStateChanged;
-
-    // ============ Invoke ============
-
+    
     public static void TowerBuilt(GameObject tower, Node node, int cost)
         => OnTowerBuilt?.Invoke(tower, node, cost);
 

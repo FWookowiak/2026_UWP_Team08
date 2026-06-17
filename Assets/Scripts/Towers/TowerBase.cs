@@ -49,8 +49,7 @@ public class TowerBase : MonoBehaviour
         GameEvents.OnWaveStarted      -= HandleWaveStarted;
         GameEvents.OnWaveCompleted    -= HandleWaveCompleted;
     }
-
-    // wywoływane przez SellTowerCommand / Destroy(gameObject)
+    
     private void OnDestroy()
     {
         GameEvents.TowerDestroyed(this, transform.position);

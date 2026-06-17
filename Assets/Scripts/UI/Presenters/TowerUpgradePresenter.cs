@@ -76,8 +76,7 @@ public class TowerUpgradePresenter : MonoBehaviour
         );
 
         upgradeView.SetTargetingMode(tower.CurrentTargetingMode);
-
-        // Pokaż cenę sprzedaży
+        
         if (selectedNode != null && selectedNode.towerConfig != null)
         {
             int refund = Mathf.RoundToInt(

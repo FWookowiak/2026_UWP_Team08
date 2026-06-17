@@ -26,8 +26,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
         public AudioClip clip;
         [Range(0f, 1f)] public float volume = 1f;
     }
-
-    // Wpisz tu klipy ręcznie w Inspektorze
     [SerializeField] private List<SoundEffect> soundEffects = new();
     private Dictionary<string, SoundEffect> sfxLookup;
 
@@ -96,11 +94,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
             musicSource.pitch = Mathf.Lerp(musicSource.pitch, targetPitch, Time.deltaTime * pitchLerpSpeed);
     }
 
-    // ── Muzyka ───────────────────────────────────────────────────────────────
-
     public void StopMusic() => musicSource?.Stop();
-
-    // ── SFX ──────────────────────────────────────────────────────────────────
 
     public void PlaySFX(string id)
     {
@@ -111,8 +105,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
         else
             Debug.LogWarning($"[AudioManager] Brak SFX o id '{id}'");
     }
-
-    // ── Event handlers ────────────────────────────────────────────────────────
 
     private void HandleTowerBuilt(GameObject t, Node n, int c)       => PlaySFX("tower_build");
     private void HandleTowerSold(GameObject t, Node n, int r)         => PlaySFX("tower_sell");

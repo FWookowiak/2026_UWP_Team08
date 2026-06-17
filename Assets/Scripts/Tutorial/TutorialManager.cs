@@ -86,8 +86,7 @@ public class TutorialManager : MonoBehaviour
             description = "Wieża postawiona. Możesz stawiać kolejne wieże w wolnych polach.",
             requiresAction = false
         });
-
-        // NOWY KROK — S-3.11
+        
         steps.Add(new TutorialStep
         {
             stepId = "enemy_attack_info",

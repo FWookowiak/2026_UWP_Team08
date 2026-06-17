@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// HUDPresenter korzysta z wzorca Observer — subskrybuje GameEvents
-/// zamiast pollować dane w Update().
-/// </summary>
 public class HUDPresenter : MonoBehaviour
 {
     [SerializeField] private HUDView hudView;
@@ -32,7 +28,6 @@ public class HUDPresenter : MonoBehaviour
 
     private void Start()
     {
-        // Inicjalizacja stanu
         hudView.UpdateMoney(PlayerStats.Money);
         hudView.UpdateLives(PlayerStats.Lives);
         if (WaveManager.Instance != null)

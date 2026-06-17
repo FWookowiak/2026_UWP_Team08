@@ -16,7 +16,6 @@ public class EnemyHealthBarView : MonoBehaviour, IEnemyHealthBarView
 
     private void LateUpdate()
     {
-        // Pasek zawsze patrzy na kamerę
         if (mainCamera != null)
         {
             transform.LookAt(

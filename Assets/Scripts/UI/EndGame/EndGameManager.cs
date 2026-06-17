@@ -37,9 +37,7 @@ public class EndGameManager : MonoBehaviour
 
     private void RestartGame()
     {
-        // Resume time in case it was frozen by GameManager
         Time.timeScale = 1f;
-        // Reload current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

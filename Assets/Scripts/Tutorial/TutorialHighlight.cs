@@ -14,8 +14,7 @@ public class TutorialHighlight : MonoBehaviour
     {
         if (cutoutFrame == null || !cutoutFrame.gameObject.activeInHierarchy)
             return;
-
-        // Pulsujący efekt ramki
+        
         float alpha = Mathf.Lerp(pulseMin, pulseMax,
             (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f);
 

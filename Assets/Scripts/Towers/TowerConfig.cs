@@ -7,5 +7,5 @@ public class TowerConfig
     public int cost;
     
     [Range(0f, 1f)]
-    public float sellRefundPercent = 0.5f; // 50% zwrotu przy sprzedaży
+    public float sellRefundPercent = 0.5f; 
 }

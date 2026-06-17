@@ -18,7 +18,7 @@ public class TowerSelector : MonoBehaviour
         }
 
         BuildManager.Instance.SelectTowerToBuild(availableTowers[index]);
-        GameEvents.TowerTypeSelected(availableTowers[index]);  // ← NOWE
+        GameEvents.TowerTypeSelected(availableTowers[index]); 
         Debug.Log($"Wybrano wieżę: {availableTowers[index].prefab.name}, koszt: {availableTowers[index].cost}");
     }
 }
